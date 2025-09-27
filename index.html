@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner & CSV Matcher</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="app-header">
+            <h1>QR Code Scanner & CSV Matcher</h1>
+            <div class="status-indicator">
+                <span class="status status--info" id="app-status">Ready</span>
+            </div>
+        </header>
+
+        <!-- CSV Upload Section -->
+        <section class="upload-section card">
+            <div class="card__header">
+                <h2>CSV Data Upload</h2>
+                <div class="sample-data-controls">
+                    <button id="loadStudentsBtn" class="btn btn--outline btn--sm">Load Students Sample</button>
+                    <button id="loadEventsBtn" class="btn btn--outline btn--sm">Load Events Sample</button>
+                </div>
+            </div>
+            <div class="card__body">
+                <div class="form-group">
+                    <label for="csvFile" class="form-label">Select CSV File</label>
+                    <input type="file" id="csvFile" accept=".csv" class="form-control">
+                </div>
+                <div id="csvStatus" class="csv-status"></div>
+                <div id="csvPreview" class="csv-preview hidden"></div>
+            </div>
+        </section>
+
+        <!-- QR Scanner Section -->
+        <section class="scanner-section card">
+            <div class="card__header">
+                <h2>QR Code Scanner</h2>
+                <div class="scanner-controls">
+                    <button id="startScannerBtn" class="btn btn--primary">Start Scanner</button>
+                    <button id="stopScannerBtn" class="btn btn--secondary hidden">Stop Scanner</button>
+                </div>
+            </div>
+            <div class="card__body">
+                <div id="qr-reader" class="qr-reader-container"></div>
+                <div id="scannerStatus" class="scanner-status">
+                    <span class="status status--info">Scanner Ready</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Validation Results Section -->
+        <section class="results-section card">
+            <div class="card__header">
+                <h2>Validation Results</h2>
+                <div class="result-stats">
+                    <span class="stat-item">Total Scans: <span id="totalScans">0</span></span>
+                    <span class="stat-item">Matches: <span id="matchCount">0</span></span>
+                    <span class="stat-item">Duplicates: <span id="duplicateCount">0</span></span>
+                </div>
+            </div>
+            <div class="card__body">
+                <div id="validationResults" class="validation-results">
+                    <div class="no-results">
+                        <p class="text-secondary">No scans performed yet</p>
+                        <p class="text-secondary">Upload CSV data and start scanning QR codes</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scan History Section -->
+        <section class="history-section card">
+            <div class="card__header">
+                <h2>Scan History</h2>
+                <div class="history-controls">
+                    <button id="clearHistoryBtn" class="btn btn--outline btn--sm">Clear History</button>
+                    <button id="downloadHistoryBtn" class="btn btn--outline btn--sm">Export CSV</button>
+                </div>
+            </div>
+            <div class="card__body">
+                <div id="scanHistory" class="scan-history">
+                    <p class="text-secondary">No scan history available</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Control Section -->
+        <section class="controls-section">
+            <div class="control-buttons">
+                <button id="resetBtn" class="btn btn--secondary">Reset All Data</button>
+            </div>
+        </section>
+
+        <!-- Loading Modal -->
+        <div id="loadingModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="loading-spinner"></div>
+                <p>Processing...</p>
+            </div>
+        </div>
+
+        <!-- Error Modal -->
+        <div id="errorModal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Error</h3>
+                <p id="errorMessage"></p>
+                <button id="closeErrorBtn" class="btn btn--primary">OK</button>
+            </div>
+        </div>
+
+        <!-- Match Details Modal -->
+        <div id="matchModal" class="modal hidden">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3>Match Details</h3>
+                    <button id="closeMatchBtn" class="btn btn--outline btn--sm">Close</button>
+                </div>
+                <div id="matchDetails" class="match-modal-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
